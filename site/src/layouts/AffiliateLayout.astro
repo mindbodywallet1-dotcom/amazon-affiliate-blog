@@ -1,0 +1,136 @@
+---
+import '@/styles/global.css';
+import SEOHead from '@/components/SEOHead.astro';
+import DisclosureBanner from '@/components/DisclosureBanner.astro';
+import AmazonCTA from '@/components/AmazonCTA.astro';
+import ProsCons from '@/components/ProsCons.astro';
+import ComparisonTable from '@/components/ComparisonTable.astro';
+import StickyCTA from '@/components/StickyCTA.astro';
+import { getAffiliateConfig, getAsinDataList, type AsinData } from '@/lib/affiliate';
+
+interface Props {
+  title: string;
+  description: string;
+  type: 'review' | 'roundup' | 'comparison';
+  slug: string;
+  asins: string[];
+  hero_cta_text?: string;
+  verdict?: string;
+  quick_pick_asin?: string;
+  comparison_winner?: string;
+  updated?: string;
+}
+
+const {
+  title,
+  description,
+  type,
+  slug,
+  asins,
+  hero_cta_text,
+  verdict,
+  quick_pick_asin,
+  comparison_winner,
+  updated,
+} = Astro.props;
+
+const config = getAffiliateConfig();
+const asinData = getAsinDataList(asins);
+const primaryAsin = asinData[0];
+const quickPick = asinData.find((a) => a.asin === quick_pick_asin) ?? asinData[0];
+const winner = asinData.find((a) => a.asin === comparison_winner) ?? asinData[0];
+const stickyAsin = quickPick?.asin ?? primaryAsin?.asin ?? asins[0];
+---
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <SEOHead
+      title={title}
+      description={description}
+      type={type}
+      slug={slug}
+      asins={asinData}
+      siteUrl={config.site_url}
+    />
+  </head>
+  <body>
+    <header class="bg-white border-b border-gray-200">
+      <div class="max-w-3xl mx-auto px-4 py-4">
+        <a href="/" class="text-sm text-gray-600 hover:text-gray-900">← Home</a>
+      </div>
+    </header>
+
+    <main class="max-w-3xl mx-auto px-4 py-8 pb-24">
+      <DisclosureBanner />
+
+      <article>
+        <header class="mb-8">
+          <h1 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">{title}</h1>
+          <p class="text-lg text-gray-600 mb-4">{description}</p>
+          {updated && (
+            <p class="text-sm text-gray-500">Last updated: {updated}</p>
+          )}
+
+          {type === 'roundup' && quickPick && (
+            <div class="bg-amber-50 border border-amber-200 rounded-lg p-4 mt-4">
+              <p class="text-sm font-semibold text-amber-800 uppercase tracking-wide">Quick pick</p>
+              <p class="font-bold text-lg mt-1">{quickPick.title}</p>
+              {quickPick.best_for && <p class="text-gray-700 mt-1">{quickPick.best_for}</p>}
+              <div class="mt-3">
+                <AmazonCTA asin={quickPick.asin} text={hero_cta_text ?? 'Check price on Amazon'} />
+              </div>
+            </div>
+          )}
+
+          {type === 'review' && primaryAsin && (
+            <div class="mt-4">
+              <AmazonCTA asin={primaryAsin.asin} text={hero_cta_text ?? 'Check price on Amazon'} />
+            </div>
+          )}
+
+          {type === 'comparison' && asinData.length >= 2 && (
+            <div class="mt-4 flex flex-wrap gap-3">
+              <AmazonCTA asin={asinData[0].asin} text={`View ${asinData[0].title.split(' ')[0]} on Amazon`} />
+              <AmazonCTA asin={asinData[1].asin} text={`View ${asinData[1].title.split(' ')[0]} on Amazon`} variant="secondary" />
+            </div>
+          )}
+        </header>
+
+        {(type === 'roundup' || type === 'comparison') && asinData.length > 0 && (
+          <ComparisonTable
+            asins={asinData}
+            highlightAsin={type === 'comparison' ? winner?.asin : quickPick?.asin}
+          />
+        )}
+
+        <div class="prose prose-gray max-w-none">
+          <slot />
+        </div>
+
+        {type === 'review' && primaryAsin && <ProsCons asin={primaryAsin} />}
+
+        {verdict && (
+          <div class="bg-gray-100 border border-gray-200 rounded-lg p-6 mt-8">
+            <h2 class="text-xl font-bold mb-2">Verdict</h2>
+            <p class="text-gray-700">{verdict}</p>
+            {primaryAsin && (
+              <div class="mt-4">
+                <AmazonCTA asin={stickyAsin} text="See current price on Amazon" />
+              </div>
+            )}
+          </div>
+        )}
+      </article>
+    </main>
+
+    <footer class="bg-white border-t border-gray-200 mt-12">
+      <div class="max-w-3xl mx-auto px-4 py-8 text-sm text-gray-600">
+        <p class="whitespace-pre-line">{config.disclosure_full}</p>
+        <p class="mt-4 text-gray-400">© {new Date().getFullYear()} Affiliate Reviews</p>
+      </div>
+    </footer>
+
+    {stickyAsin && <StickyCTA asin={stickyAsin} text={hero_cta_text} />}
+  </body>
+</html>

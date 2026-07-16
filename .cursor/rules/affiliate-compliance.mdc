@@ -1,0 +1,27 @@
+---
+description: FTC and Amazon Associates compliance for affiliate content and site
+globs: site/**/*,content/affiliate/**/*,affiliate/**/*
+alwaysApply: false
+---
+
+# Affiliate Compliance
+
+## Required on every affiliate page
+
+- Short FTC disclosure above the fold via `DisclosureBanner`
+- Full disclosure in footer (from `affiliate/disclosure.md`)
+- All Amazon links: `rel="nofollow sponsored"` and `target="_blank"`
+- All Amazon links include `tag={associate_tag}` from `affiliate/config.yaml`
+- Descriptive link text — never "click here" as sole text
+
+## Prohibited
+
+- Price guarantees or "lowest price" claims
+- Incentivized click language ("click to support me")
+- Amazon logo misuse or implied Amazon endorsement
+- Copied Amazon product descriptions
+- Publishing with `published: true` before `validate_affiliate_page.py` passes
+
+## Before publish
+
+Run `python scripts/validate_affiliate_page.py` and fix all errors.

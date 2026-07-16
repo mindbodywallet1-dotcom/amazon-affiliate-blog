@@ -1,0 +1,17 @@
+node_modules/
+site/node_modules/
+site/dist/
+.env
+affiliate/config.yaml
+.cursor/mcp.json
+__pycache__/
+*.pyc
+site/.astro/
+.DS_Store
+Thumbs.db
+*.log
+
+# Video files — drop here locally, don't commit to git
+posts/media/*.mp4
+posts/media/*.mov
+posts/media/*.webm

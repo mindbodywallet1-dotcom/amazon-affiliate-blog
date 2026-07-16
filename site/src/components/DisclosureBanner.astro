@@ -1,0 +1,10 @@
+---
+import { getAffiliateConfig } from '@/lib/affiliate';
+
+const config = getAffiliateConfig();
+---
+
+<aside class="bg-amber-50 border border-amber-200 text-amber-900 text-sm px-4 py-3 rounded-lg mb-6">
+  <p class="font-medium">Disclosure</p>
+  <p>{config.disclosure_short}</p>
+</aside>

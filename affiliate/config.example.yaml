@@ -1,0 +1,19 @@
+# Copy to config.yaml and fill in your Amazon Associates credentials.
+# config.yaml is gitignored — never commit your real tracking ID.
+
+associate_tag: "yourtag-20"
+store_id: ""
+site_url: "https://wellthlab.blog"
+
+disclosure_short: "As an Amazon Associate I earn from qualifying purchases."
+disclosure_full: |
+  Disclosure: This page contains affiliate links. If you purchase through
+  these links, I may earn a commission at no extra cost to you. I only
+  recommend products I have researched and believe offer genuine value.
+  As an Amazon Associate I earn from qualifying purchases.
+
+default_utm:
+  source: [google, pinterest, tiktok, facebook]
+  medium: [organic, social, cpc]
+  campaign: [review, roundup, comparison]
+  content: [hero-cta, sticky-cta, table-link]

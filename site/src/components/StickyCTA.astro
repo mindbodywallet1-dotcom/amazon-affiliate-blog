@@ -1,0 +1,16 @@
+---
+import AmazonCTA from './AmazonCTA.astro';
+
+interface Props {
+  asin: string;
+  text?: string;
+}
+
+const { asin, text = 'Check price on Amazon' } = Astro.props;
+---
+
+<div class="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 p-3 shadow-lg md:hidden z-50">
+  <div class="max-w-3xl mx-auto flex justify-center">
+    <AmazonCTA asin={asin} text={text} />
+  </div>
+</div>

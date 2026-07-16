@@ -1,0 +1,25 @@
+---
+import { buildAmazonUrl } from '@/lib/affiliate';
+
+interface Props {
+  asin: string;
+  text?: string;
+  variant?: 'primary' | 'secondary';
+}
+
+const { asin, text = 'Check price on Amazon', variant = 'primary' } = Astro.props;
+const url = buildAmazonUrl(asin);
+
+const classes = variant === 'primary'
+  ? 'inline-block bg-amazon hover:bg-amazon-dark text-white font-semibold px-6 py-3 rounded-lg transition-colors'
+  : 'inline-block border-2 border-amazon text-amazon hover:bg-amazon hover:text-white font-semibold px-6 py-3 rounded-lg transition-colors';
+---
+
+<a
+  href={url}
+  rel="nofollow sponsored"
+  target="_blank"
+  class={classes}
+>
+  {text} →
+</a>

@@ -1,0 +1,73 @@
+---
+import type { AsinData } from '@/lib/affiliate';
+
+interface Props {
+  title: string;
+  description: string;
+  type: 'review' | 'roundup' | 'comparison';
+  slug: string;
+  asins: AsinData[];
+  siteUrl?: string;
+}
+
+const { title, description, type, slug, asins, siteUrl = 'https://wellthlab.blog' } = Astro.props;
+const canonical = new URL(`/${slug}`, siteUrl).toString();
+
+const schema = type === 'roundup'
+  ? {
+      '@context': 'https://schema.org',
+      '@type': 'ItemList',
+      name: title,
+      description,
+      itemListElement: asins.map((asin, i) => ({
+        '@type': 'ListItem',
+        position: i + 1,
+        item: {
+          '@type': 'Product',
+          name: asin.title,
+          url: asin.affiliate_url,
+        },
+      })),
+    }
+  : type === 'review' && asins[0]
+  ? {
+      '@context': 'https://schema.org',
+      '@type': 'Review',
+      name: title,
+      description,
+      reviewBody: description,
+      itemReviewed: {
+        '@type': 'Product',
+        name: asins[0].title,
+        url: asins[0].affiliate_url,
+      },
+      ...(asins[0].rating && {
+        reviewRating: {
+          '@type': 'Rating',
+          ratingValue: asins[0].rating,
+          bestRating: 5,
+        },
+      }),
+    }
+  : {
+      '@context': 'https://schema.org',
+      '@type': 'WebPage',
+      name: title,
+      description,
+      url: canonical,
+    };
+---
+
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>{title}</title>
+<meta name="description" content={description} />
+<link rel="canonical" href={canonical} />
+<meta property="og:type" content="article" />
+<meta property="og:title" content={title} />
+<meta property="og:description" content={description} />
+<meta property="og:url" content={canonical} />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content={title} />
+<meta name="twitter:description" content={description} />
+<script type="application/ld+json" set:html={JSON.stringify(schema)} />

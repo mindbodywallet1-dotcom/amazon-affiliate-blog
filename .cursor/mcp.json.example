@@ -1,0 +1,10 @@
+{
+  "mcpServers": {
+    "blotato": {
+      "url": "https://mcp.blotato.com/mcp",
+      "headers": {
+        "blotato-api-key": "PASTE_YOUR_FULL_KEY_FROM_BLOTATO_SETTINGS_API"
+      }
+    }
+  }
+}

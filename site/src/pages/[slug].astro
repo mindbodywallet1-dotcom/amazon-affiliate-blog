@@ -1,0 +1,34 @@
+---
+import { getCollection } from 'astro:content';
+import AffiliateLayout from '@/layouts/AffiliateLayout.astro';
+
+export async function getStaticPaths() {
+  const pages = await getCollection('affiliate');
+  return pages
+    .filter((p) => p.data.published)
+    .map((p) => ({
+      params: { slug: p.id.replace(/\.mdx?$/, '') },
+      props: { page: p },
+    }));
+}
+
+const { page } = Astro.props;
+const { Content } = await page.render();
+const { data } = page;
+const pageSlug = page.id.replace(/\.mdx?$/, '');
+---
+
+<AffiliateLayout
+  title={data.title}
+  description={data.description}
+  type={data.type}
+  slug={pageSlug}
+  asins={data.asins}
+  hero_cta_text={data.hero_cta_text}
+  verdict={data.verdict}
+  quick_pick_asin={data.quick_pick_asin}
+  comparison_winner={data.comparison_winner}
+  updated={data.updated}
+>
+  <Content />
+</AffiliateLayout>

@@ -1,0 +1,38 @@
+---
+import type { AsinData } from '@/lib/affiliate';
+import AmazonCTA from './AmazonCTA.astro';
+
+interface Props {
+  asins: AsinData[];
+  highlightAsin?: string;
+}
+
+const { asins, highlightAsin } = Astro.props;
+---
+
+<div class="overflow-x-auto my-8">
+  <table class="w-full border-collapse bg-white rounded-lg shadow-sm">
+    <thead>
+      <tr class="bg-gray-100">
+        <th class="text-left p-3 border-b">Product</th>
+        <th class="text-left p-3 border-b">Rating</th>
+        <th class="text-left p-3 border-b">Price band</th>
+        <th class="text-left p-3 border-b">Best for</th>
+        <th class="text-left p-3 border-b"></th>
+      </tr>
+    </thead>
+    <tbody>
+      {asins.map((asin) => (
+        <tr class:list={['border-b', highlightAsin === asin.asin && 'bg-amber-50']}>
+          <td class="p-3 font-medium">{asin.title}</td>
+          <td class="p-3">{asin.rating ? `${asin.rating}/5` : '—'}</td>
+          <td class="p-3">{asin.price_band ?? '—'}</td>
+          <td class="p-3 text-sm">{asin.best_for ?? '—'}</td>
+          <td class="p-3">
+            <AmazonCTA asin={asin.asin} text="View on Amazon" variant="secondary" />
+          </td>
+        </tr>
+      ))}
+    </tbody>
+  </table>
+</div>

@@ -1,0 +1,28 @@
+---
+description: On-page SEO standards for Amazon affiliate landing pages
+globs: site/**/*,seo/affiliate-keywords.yaml,content/affiliate/**/*
+alwaysApply: false
+---
+
+# Affiliate SEO
+
+## Per-page requirements
+
+- Unique title tag (50-60 chars) with primary keyword near front
+- Meta description (150-160 chars) with keyword and value prop
+- Exactly one H1 per page
+- Primary keyword in first 100 words
+- JSON-LD schema via `SEOHead` (Product/Review or ItemList)
+- Canonical URL set
+- 2+ internal links to related cluster pages where available
+
+## Avoid
+
+- Keyword stuffing
+- Duplicate titles across pages
+- Thin roundup content under 800 words
+- Multiple H1 tags
+
+## After publish
+
+Update article `status: published` in `seo/affiliate-keywords.yaml`.

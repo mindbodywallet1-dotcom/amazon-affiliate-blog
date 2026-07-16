@@ -1,0 +1,58 @@
+---
+import '@/styles/global.css';
+import { getCollection } from 'astro:content';
+
+const pages = (await getCollection('affiliate'))
+  .filter((p) => p.data.published)
+  .sort((a, b) => a.data.title.localeCompare(b.data.title));
+---
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Affiliate Reviews — Honest Product Guides</title>
+    <meta name="description" content="Research-backed Amazon product reviews, roundups, and comparisons. Updated guides to help you buy with confidence." />
+  </head>
+  <body class="bg-gray-50">
+    <header class="bg-white border-b border-gray-200">
+      <div class="max-w-3xl mx-auto px-4 py-6">
+        <h1 class="text-2xl font-bold text-gray-900">Affiliate Reviews</h1>
+        <p class="text-gray-600 mt-1">Honest product guides and comparisons</p>
+      </div>
+    </header>
+
+    <main class="max-w-3xl mx-auto px-4 py-8">
+      <p class="text-gray-700 mb-8">
+        Research-backed reviews and buying guides. We earn a commission from
+        qualifying Amazon purchases at no extra cost to you.
+      </p>
+
+      {pages.length > 0 ? (
+        <ul class="space-y-4">
+          {pages.map((page) => (
+            <li>
+              <a
+                href={`/${page.id.replace(/\.mdx?$/, '')}`}
+                class="block bg-white border border-gray-200 rounded-lg p-4 hover:border-amazon transition-colors"
+              >
+                <span class="text-xs font-semibold uppercase tracking-wide text-amazon">
+                  {page.data.type}
+                </span>
+                <h2 class="text-lg font-bold mt-1">{page.data.title}</h2>
+                <p class="text-gray-600 text-sm mt-1">{page.data.description}</p>
+              </a>
+            </li>
+          ))}
+        </ul>
+      ) : (
+        <p class="text-gray-500">No published pages yet.</p>
+      )}
+    </main>
+
+    <footer class="max-w-3xl mx-auto px-4 py-8 text-sm text-gray-500">
+      <p>As an Amazon Associate I earn from qualifying purchases.</p>
+    </footer>
+  </body>
+</html>

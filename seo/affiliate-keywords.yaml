@@ -1,0 +1,35 @@
+# Amazon affiliate keyword clusters — multi-niche
+
+clusters:
+  - name: best-air-fryers
+    niche: kitchen-gadgets
+    primary:
+      - best air fryer 2026
+      - best small air fryer
+    long_tail:
+      - air fryer for small kitchen
+      - best air fryer under 100
+      - mini air fryer for apartment
+    article_queue:
+      - title: "Best Air Fryers for Small Kitchens (2026)"
+        type: roundup
+        slug: best-air-fryers-small-kitchen
+        status: published
+        target_asins:
+          - B0C1H26V4V
+          - B07VT7FVL4
+
+  - name: immersion-blenders
+    niche: kitchen-gadgets
+    primary:
+      - best immersion blender
+      - hand blender for smoothies
+    long_tail:
+      - immersion blender under 50
+      - best stick blender 2026
+    article_queue:
+      - title: "Best Immersion Blenders Under $50"
+        type: roundup
+        slug: best-immersion-blenders-under-50
+        status: queued
+        target_asins: []
