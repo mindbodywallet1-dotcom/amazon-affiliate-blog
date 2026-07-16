@@ -70,12 +70,16 @@ Read `amazon-compliance` skill. Must pass before publish. No exceptions.
 
 ## Step 9 — Validate + deploy
 
+Read `vercel-deploy` skill before any Vercel guidance.
+
 ```bash
 python scripts/validate_affiliate_page.py
 cd site && npm run build
 ```
 
-Deploy `site/dist/` to Vercel or Netlify.
+Deploy via Vercel:
+1. Import screen → Root Directory = `site` **before** first Deploy
+2. See `vercel-deploy` skill for domain + DNS steps
 
 ## Specialist map
 

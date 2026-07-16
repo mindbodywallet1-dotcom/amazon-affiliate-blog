@@ -30,7 +30,8 @@ Trigger phrases:
 | SEO strategy | `amazon-seo-master` | Clusters, calendars, topical maps |
 | CRO | `amazon-cro` | CTA layout, conversion audits |
 | Compliance | `amazon-compliance` | FTC + Amazon rules (required gate) |
-| Link builder | `amazon-link-builder` | Affiliate URL generation |
+| Link builder | `amazon-link-builder` |
+| Vercel deploy | `vercel-deploy` | Affiliate URL generation |
 
 ## Orchestrator decision tree
 
